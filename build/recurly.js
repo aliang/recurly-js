@@ -1241,11 +1241,13 @@ function initCommonForm($form, options) {
     var $input = $(this);
     var $li = $(this).parent(); 
 
-    if($input.val().length > 0) {
-      $li.find('.placeholder').hide();
-    }
-    else {
-      $li.find('.placeholder').show();
+    if(options.enablePlaceholder) {
+      if($input.val().length > 0) {
+        $li.find('.placeholder').hide();
+      }
+      else {
+        $li.find('.placeholder').show();
+      }
     }
   });
 
@@ -1258,11 +1260,13 @@ function initCommonForm($form, options) {
     $(this).parent().removeClass('focus');
   });
 
-  $form.delegate('input', 'keydown', function(e) {
-    if(e.keyCode >= 48 && e.keyCode <= 90) {
-      $(this).parent().find('.placeholder').hide();
-    }
-  });
+  if(options.enablePlaceholder) {
+    $form.delegate('input', 'keydown', function(e) {
+      if(e.keyCode >= 48 && e.keyCode <= 90) {
+        $(this).parent().find('.placeholder').hide();
+      }
+    });
+  }
   
   preFillValues($form, options, preFillMap);
 }
@@ -1563,6 +1567,7 @@ function verifyTOSChecked($form, pull) {
 R.buildBillingInfoUpdateForm = function(options) {
   var defaults = {
     addressRequirement: 'full'
+  , enablePlaceholder: true
   , distinguishContactFromBillingInfo: true 
   };
 
@@ -1675,6 +1680,7 @@ function initTOSCheck($form, options) {
 R.buildTransactionForm = function(options) {
   var defaults = {
     addressRequirement: 'full'
+  , enablePlaceholder: true
   , distinguishContactFromBillingInfo: true
   , collectContactInfo: true
   };
@@ -1778,6 +1784,7 @@ R.buildSubscriptionForm = function(options) {
   var defaults = {
     enableAddOns: true
   , enableCoupons: true
+  , enablePlaceholder: true
   , addressRequirement: 'full'
   , distinguishContactFromBillingInfo: false
   };
